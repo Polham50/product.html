@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product List</title>
+</head>
+<body>
+  <h2>Product List</h2>
+  <ul id="product-list"></ul>
+
+  <script>
+    // Simulated product data
+    const products = [
+      { id: 1, name: 'Product 1', description: 'Description of Product 1', price: 10 },
+      { id: 2, name: 'Product 2', description: 'Description of Product 2', price: 15 },
+      { id: 3, name: 'Product 3', description: 'Description of Product 3', price: 20 },
+    ];
+
+    // Function to render the product list
+    function renderProductList() {
+      const productListElement = document.getElementById('product-list');
+
+      // Clear the existing list
+      productListElement.innerHTML = '';
+
+      // Loop through the products and create list items
+      products.forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p>Price: $${product.price}</p>
+          <label for="quantity-${product.id}">Quantity:</label>
+          <input type="number" id="quantity-${product.id}" value="1">
+          <br>
+          <label for="name-${product.id}">Name:</label>
+          <input type="text" id="name-${product.id}">
+          <br>
+          <label for="email-${product.id}">Email:</label>
+          <input type="email" id="email-${product.id}">
+          <br>
+          <button onclick="makeOrder(${product.id})">Order</button>
+        `;
+        productListElement.appendChild(listItem);
+      });
+    }
+
+    // Function to handle order placement
+    function makeOrder(productId) {
+      const selectedProduct = products.find(product => product.id === productId);
+      if (selectedProduct) {
+        const quantityInput = document.getElementById(`quantity-${productId}`);
+        const nameInput = document.getElementById(`name-${productId}`);
+        const emailInput = document.getElementById(`email-${productId}`);
+        
+        const quantity = parseInt(quantityInput.value);
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        
+        if (quantity > 0 && name && email) {
+          // Replace this alert with your desired order placement logic
+          alert(`Order placed for ${quantity}x ${selectedProduct.name} by ${name} (${email})`);
+          
+          // Reset input fields
+          quantityInput.value = 1;
+          nameInput.value = '';
+          emailInput.value = '';
+        } else {
+          alert('Please enter valid quantity, name, and email');
+        }
+      }
+    }
+
+    // Call the renderProductList function to display the initial product list
+    renderProductList();
+  </script>
+</body>
+</html>
